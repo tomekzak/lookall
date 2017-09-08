@@ -6,6 +6,8 @@ import angularAnimate from 'angular-animate';
 import angularMessages from 'angular-messages';
 import angularMaterial from 'angular-material';
 
+import 'angular-material/angular-material.min.css';
+
 import depsConfig from './deps.config';
 
 export const deps = 'app.deps';
