@@ -1,6 +1,12 @@
 module.exports = businessesCol => {
 
   return {
+
+    async save(business) {
+      console.log(business);
+      return await businessesCol.insertOne(business)
+    },
+
     async getAll() {
       return await businessesCol.find({}).toArray()
       /*
