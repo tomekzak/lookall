@@ -1,6 +1,5 @@
 import angular from 'angular';
 
-import {hello} from './app/hello';
 import routesConfig from './routes';
 
 import {deps} from './deps/deps.module.js';
@@ -17,5 +16,4 @@ angular
     services,
     components
   ])
-  .config(routesConfig)
-  .component('app', hello);
+  .config(routesConfig);
