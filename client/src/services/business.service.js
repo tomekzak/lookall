@@ -1,9 +1,10 @@
 export class BusinessService {
-  constructor($http) {
+  constructor($http, $log) {
     'ngInject';
     this.$http = $http;
+    this.$log = $log;
   }
-  getAllBusinesses() {
-    return this.$http.get('/api/allBusinesses').then(response => response.data);
+  getAll() {
+    return this.$http.get('localhost:5000/business/all').then(response => this.$log('first fetch!', response.data));
   }
 }
