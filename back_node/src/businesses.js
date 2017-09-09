@@ -1,12 +1,24 @@
 const fs = require('fs')
 const uuidv4 = require('uuid/v4')
 const id = require('mongodb').ObjectID
+const defaultCategories = [
+  "ubrania i tekstylia",
+  "gastronomia",
+  "rzemiosło artystyczne",
+  "książki",
+  "wnętrza",
+  "inne"
+];
 
 const err = code => {
   let e = new Error
   e.code = code
   return e
 }
+const unique = arr => arr.reduce(
+  (uniq, e) => uniq.includes(e) ? uniq : [...uniq, e],
+  []
+)
 const avg = numbers => numbers.length > 0
   ? numbers.reduce((soFar, number) => soFar + number, 0) / numbers.length
   : 0
@@ -181,7 +193,10 @@ module.exports = (collOfBusinesses, collOfNewBusinesses) => ({
   },
 
   async getCategories() {
-    return collOfBusinesses.distinct("category")
+    const fromDb = await collOfBusinesses.distinct("category")
+    return unique([]
+      .concat(fromDb)
+      .concat(defaultCategories))
   },
 
   async find(params) {
