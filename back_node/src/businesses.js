@@ -47,6 +47,29 @@ const moveFileToImages = (originalFilename, path) => {
 }
 
 module.exports = (collOfBusinesses, collOfNewBusinesses) => ({
+
+  //such an awful IDOR
+  async edit(businessId, paramsToChange) {
+    const params = Object.assign(
+      {},
+      paramsToChange.image ? {
+          image: moveFileToImages(
+            business.image.originalname,
+            business.image.path
+          )
+      } : {image: 1},
+      paramsToChange.name ? { name: paramsToChange.name } : {},
+      paramsToChange.address ? { address: paramsToChange.address } : {},
+      paramsToChange.category ? { category: paramsToChange.category } : {},
+      paramsToChange.description ? { description: paramsToChange.description } : {},
+    )
+
+    return collOfBusinesses.updateOne(
+      {_id: id(businessId)},
+      {$set: params}
+    )
+  },
+
   async save(login, business) {
     const pathToImage = moveFileToImages(
       business.image.originalname,
@@ -68,7 +91,7 @@ module.exports = (collOfBusinesses, collOfNewBusinesses) => ({
   },
 
   async delete(businessId) {
-    return collOfBusinesses.removeOne({_id: businessId})
+    return collOfBusinesses.removeOne({_id: id(businessId)})
   },
 
   async voteOnComment({businessId, login, upvotesChange, downvotesChange}) {
@@ -118,7 +141,7 @@ module.exports = (collOfBusinesses, collOfNewBusinesses) => ({
 
   async recommendExisting({login, businessId}) {
     collOfBusinesses.updateOne(
-      {_id: businessId},
+      {_id: id(businessId)},
       { $addToSet: { recommendations: login } }
     )
   },

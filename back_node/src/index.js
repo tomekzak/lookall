@@ -111,6 +111,20 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
     res.status(200).end()
   })
 
+  app.post('/business/edit', users.denyUnlessLoggedIn, upload.single('image'), async (req, res) => {
+    const newBusiness = Object.assign(
+      {},
+      req.body,
+      {image: req.file},
+      {comments: [], rates: []}
+    )
+    await businesses.edit(
+      req.body.businessId,
+      newBusiness
+    )
+    res.status(200).end();
+  })
+
   app.post('/business', users.denyUnlessLoggedIn, upload.single('image'), async (req, res) => {
     const newBusiness = Object.assign(
       {},
@@ -170,8 +184,6 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
       throw e
     }
   })
-
-
 
 
   // the server itself
