@@ -6,12 +6,14 @@ export const hello = {
       BusinessService
     ) {
       'ngInject';
-
+      this.$log = $log;
       this.BusinessService = BusinessService;
     }
 
     $onInit() {
-      this.BusinessService.getAll().then(res => this.$log.debug('get all', res));
+      this.BusinessService.getAll().then(res => {
+        this.$log.debug('get all', res);
+      });
     }
   }
 };
