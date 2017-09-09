@@ -8,12 +8,14 @@ db.businesses.insertMany([
     "rates": [
       {"login": "admin", "rate": 3},
       {"login": "lukasz", "rate": 5},
-    ]
+    ],
+    "comments": []
   },
   {
     "name": "Handmade bags",
     "address": "Baggy street",
-    "rates": []
+    "rates": [],
+    "comments": []
   },
 
 ]);
