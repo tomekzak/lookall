@@ -69,6 +69,17 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
 
   // publicly available endpoints
 
+  app.get('/categories', async (reg, res) => {
+    res.json(await businesses.getCategories())
+  })
+
+  app.get('/business/find', async (req, res) => {
+    const params = {
+      category: req.query.category + ""
+    }
+    res.json(await businesses.find(params))
+  })
+
   app.get('/business/all', async (req, res) => {
     res.json(await businesses.getAll())
   })

@@ -7,7 +7,7 @@ const err = code => {
 const avg = numbers => numbers.length > 0
   ? numbers.reduce((soFar, number) => soFar + number, 0) / numbers.length
   : 0
-const removeUnderscoreFromId = entry => Object.assign({}, entry, {id: entry._id, _id: undefined})
+const addUnderscoreLessId = entry => Object.assign({}, entry, {id: entry._id})
 const entryExists = (rows, keyName, entry) =>
   rows.some(row => row[keyName] == entry[keyName])
 
@@ -23,9 +23,15 @@ const addOrReplace = (rows, keyName, newEntry) => {
     })
   } else {
     //add
-    return [].concat(rows).push(newEntry)
+    return [].concat(rows).concat([newEntry])
   }
 }
+
+const addAvgRate = business => Object.assign({}, business, {
+  avgRate: avg(business.rates.map(ratedByUser => ratedByUser.rate))
+})
+
+const prepareBusinessForReturning = businessFromDb => addAvgRate(addUnderscoreLessId(businessFromDb))
 
 /*
 
@@ -63,7 +69,7 @@ module.exports = (col) => ({
     const query = {_id: id(businessId)};
     const business = await col.findOne({_id: id(businessId)})
     if (!business) throw err("business_not_found")
-    return removeUnderscoreFromId(business)
+    return addUnderscoreLessId(business)
   },
 
   async rate(login, businessId, stars) {
@@ -86,12 +92,19 @@ module.exports = (col) => ({
 
   async getAll() {
     const businesses = await col.find({}).toArray();
-    return businesses
-      .map(business => Object.assign({}, business, {
-        avgRate: avg(business.rates.map(ratedByUser => ratedByUser.rate))
-      }))
-      .map(removeUnderscoreFromId)
+    return businesses.map(prepareBusinessForReturning)
+  },
+
+  async getCategories() {
+    return col.distinct("category")
+  },
+
+  async find(params) {
+    const query = {category: params.category}
+    const businesses = await col.find(query).toArray()
+    return businesses.map(prepareBusinessForReturning)
   }
+
 })
 
 
