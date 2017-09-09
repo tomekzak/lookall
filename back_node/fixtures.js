@@ -26,15 +26,18 @@ db.businesses.insertMany([
       {"login": "admin", "rate": 3},
       {"login": "lukasz", "rate": 5}
     ],
+    "favoriteOf": ["lukasz", "admin"],
     "owner": "Wojciech",
     "comments": [],
     "rates": [],
+    "favoriteOf": [],
     "category": "rzemiosło",
     "description": "Jestem najlepszym ślusarzem w okolicy!",
     "recommendations": ["lukasz"]
   },
   {
     "name": "Szewstwo",
+    "favoriteOf": [],
     "address": "ul. Gliwicka 84, 40-854 Katowice",
     "rates": [],
     "owner": "Maria",
@@ -46,6 +49,7 @@ db.businesses.insertMany([
   },
   {
     "name": "Ubezpieczenia",
+    "favoriteOf": [],
     "address": "ul. Styczniowa 28B, 40-305 Katowice",
     "owner": "Bogusław",
     "rates": [{"login": "lukasz", "rate": 5}],

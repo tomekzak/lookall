@@ -17,6 +17,7 @@ if (process.env.NODE_ENV != 'production') {
 }
 app.use('/images', express.static(path.join(__dirname, '..', 'images')))
 
+// consider mongoose because the risk of malformed data is enormous
 const MongoClient = require('mongodb').MongoClient
 
 const port = process.env.PORT || 5000;
@@ -31,6 +32,7 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
   )
   const users = makeUsers(db.collection('users'))
 
+  // similar endpoints should be grouped and mounted
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(users.readUser)
@@ -145,7 +147,7 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
     res.status(200).end();
   })
 
-  app.post('/business/recommendExisting', async (req, res) => {
+  app.post('/business/recommendExisting', users.denyUnlessLoggedIn, async (req, res) => {
     await businesses.recommendExisting({
       login: req.user.login,
       businessId: req.body.businessId
@@ -153,12 +155,17 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
     res.status(200).end()
   })
 
-  app.post('/business/recommendNew', async (req, res) => {
+  app.post('/business/recommendNew', users.denyUnlessLoggedIn, async (req, res) => {
     await businesses.recommendNew({
       contactInfo: req.body.contactInfo,
       category: req.body.category,
       login: req.user.login
     })
+    res.status(200).end()
+  })
+
+  app.post('/business/toggleFavorite', users.denyUnlessLoggedIn, async (req, res) => {
+    await businesses.toggleFavorite(req.user.login, req.body.businessId)
     res.status(200).end()
   })
 

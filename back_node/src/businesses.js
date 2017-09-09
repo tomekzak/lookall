@@ -60,6 +60,27 @@ const moveFileToImages = (originalFilename, path) => {
 
 module.exports = (collOfBusinesses, collOfNewBusinesses) => ({
 
+  async toggleFavorite(login, businessId) {
+    var business
+    try {
+      business = await this.getOneBusiness(businessId)
+    } catch (e) {
+      return;
+    }
+
+    let favoriteOf = business.favoriteOf
+    if (favoriteOf.includes(login)) {
+      favoriteOf = favoriteOf.filter(l => l != login)
+    } else {
+      favoriteOf.push(login)
+    }
+
+    return collOfBusinesses.updateOne(
+      {_id: id(businessId)},
+      {$set: {favoriteOf}}
+    )
+  },
+
   //such an awful IDOR
   async edit(businessId, paramsToChange) {
     const params = Object.assign(
