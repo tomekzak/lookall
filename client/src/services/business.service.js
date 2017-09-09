@@ -11,6 +11,11 @@ export class BusinessService {
       return response;
     });
   }
+  get(id) {
+    return this.$http.get(url + '/business/' + id).then(response => {
+      return response.data;
+    });
+  }
   upvote(id) {
     return this.$http.post(url + '/business/upvote', {id});
   }

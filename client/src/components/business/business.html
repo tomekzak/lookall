@@ -1,6 +1,16 @@
 <div class="detail">
   <div class="detail__header-image" style="background-image: url(./../../assets/images/foty-10.png)">
     <div class="image-blend"></div>
+    <div class="detail__header-info">
+        <h2 class="detail__title">{{::$ctrl.businessItem.name}}</h2>
+        <p class="detail__category">{{::$ctrl.businessItem.category}}</p>
+    </div>
+    <md-button class="md-fab md-primary" aria-label="Like it!">
+        <ng-md-icon icon="favorite" style="fill:#FFFFFF;display: flex; justify-content: center;"></ng-md-icon>
+    </md-button>
   </div>
-  <h2>Hacksilesia</h2>
+  <div class="detail__content">
+      <star-rating-comp rating="$ctrl.rate"></star-rating-comp>
+      <p>{{::$ctrl.businessItem.description}}</p>
+  </div>
 </div>

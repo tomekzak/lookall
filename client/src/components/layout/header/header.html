@@ -1,8 +1,11 @@
 <md-toolbar class="md-hue-2">
-  <div class="md-toolbar-tools">
-    <h2 flex md-truncate ng-hide="true">Lookalni</h2>
+  <div class="md-toolbar-tools" ng-class="{'removeLeftPadding': $ctrl.back}">
+    <h2 flex ng-hide="true">Lookalni</h2>
     <span flex>
-        <img src="./../../../assets/images/logo.png" style="height: 24px;"/>
+        <img ng-hide="$ctrl.back" src="./../../../assets/images/logo.png" style="height: 24px;"/>
+        <md-button ng-show="$ctrl.back" class="md-icon-button" aria-label="Back" ng-click="$ctrl.goBack()">
+            <ng-md-icon icon="arrow_back" style="fill:#FFFFFF"></ng-md-icon>
+        </md-button>
     </span>
 
     <md-button class="md-icon-button" aria-label="Search">
