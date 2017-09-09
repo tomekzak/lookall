@@ -50,7 +50,11 @@ module.exports = col => {
         return password == user.password
       },
 
-      getJWT(login) {
+      async getUser(login) {
+        return col.findOne({login: "" + login})
+      },
+
+      async getJWT(login) {
         return jwt.sign({login}, secret);
       }
 

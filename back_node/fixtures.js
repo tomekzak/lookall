@@ -3,11 +3,15 @@ db.users.remove({});
 db.users.insertMany([
   {
     login: "admin",
-    password: "secret"
+    password: "secret",
+    name: "John",
+    surname: "Bull"
   },
   {
     login: "lukasz",
-    password: "lukasz"
+    password: "lukasz",
+    name: "Łukasz",
+    surname: "Makuch"
   }
 ]);
 

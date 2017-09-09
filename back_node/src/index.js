@@ -3,8 +3,12 @@ const express = require('express')
 const makeBusinesses = require('./businesses')
 const makeUsers = require('./users');
 const bodyParser = require('body-parser')
+const multer  = require('multer')
+const path = require('path')
+var upload = multer({ dest: path.join(__dirname, '..', 'upload') })
 
 const app = express()
+app.use('/images', express.static(path.join(__dirname, '..', 'images')))
 
 const MongoClient = require('mongodb').MongoClient
 
@@ -18,13 +22,19 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
   const users = makeUsers(db.collection('users'))
 
   app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({ extended: false }))
   app.use(users.readUser)
 
   // authorization related endpoints
   app.post('/auth/login', async (req, res) => {
     if (await users.isPasswordValid(req.body.login, req.body.password)) {
-      const token = users.getJWT(req.body.login)
-      res.json({token});
+      const token = await users.getJWT(req.body.login)
+      const user = await users.getUser(req.body.login)
+      res.json(Object.assign(
+        {},
+        {token},
+        {login: user.login, name: user.name, surname: user.surname}
+      ));
     } else {
       res.status(403).end()
     }
@@ -70,8 +80,17 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
     res.status(200).end()
   })
 
-  app.post('/business', users.denyUnlessLoggedIn, async (req, res) => {
-    await businesses.save(req.user.login, req.body)
+  app.post('/business', users.denyUnlessLoggedIn, upload.single('image'), async (req, res) => {
+    const newBusiness = Object.assign(
+      {},
+      req.body,
+      {image: req.file},
+      {comments: [], rates: []}
+    )
+    await businesses.save(
+      req.user.login,
+      newBusiness
+    )
     res.status(200).end();
   })
 

@@ -1,4 +1,7 @@
+const fs = require('fs')
+const uuidv4 = require('uuid/v4')
 const id = require('mongodb').ObjectID
+
 const err = code => {
   let e = new Error
   e.code = code
@@ -33,22 +36,34 @@ const addAvgRate = business => Object.assign({}, business, {
 
 const prepareBusinessForReturning = businessFromDb => addAvgRate(addUnderscoreLessId(businessFromDb))
 
-/*
-
-{
-  name: "Best Bakery",
-  rates: [
-    {login: "lukasz", rate: 5}
-  ],
-  comments: [
-    {login: "lukasz", content: "It's a great bakery", date}
-  ]
+const moveFileToImages = (originalFilename, path) => {
+  //TODO: do validation
+  //TODO: extract that filetype
+  const ext = ".jpg"
+  const newFilename = uuidv4() + ext
+  const newPath = __dirname + "/../images/" + newFilename
+  fs.renameSync(path, newPath)
+  return "/images/" + newFilename
 }
-*/
-module.exports = (col) => ({
 
+module.exports = (col) => ({
   async save(login, business) {
-    return col.insertOne(Object.assign({}, business, {owner: login}))
+    const pathToImage = moveFileToImages(
+      business.image.originalname,
+      business.image.path
+    )
+    const businessParameters = {
+      name: business.name,
+      address: business.address,
+      category:  business.category,
+      description: business.description,
+      rates: [],
+      comments: [],
+      owner: login,
+      image: pathToImage
+    }
+
+    return col.insertOne(businessParameters)
   },
 
   async delete(businessId) {
