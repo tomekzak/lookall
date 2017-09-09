@@ -50,10 +50,11 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
   //comment a business
   app.post('/business/comment', users.denyUnlessLoggedIn, async (req, res) => {
     await businesses.comment(
-      login,
+      req.user.login,
       req.body.businessId,
       req.body.comment
     );
+    res.status(200).end()
   })
 
   //rate a business
@@ -70,6 +71,16 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
 
   app.get('/business/all', async (req, res) => {
     res.json(await businesses.getAll())
+  })
+
+  app.get('/business/:id', async (req, res) => {
+    try {
+      const business = await businesses.getOneBusiness(req.params.id)
+      return res.json(business)
+    } catch (e) {
+      if (e.code == 'business_not_found') return res.status(404).end()
+      throw e
+    }
   })
 
   // the server itself

@@ -7,7 +7,7 @@ const err = code => {
 const avg = numbers => numbers.length > 0
   ? numbers.reduce((soFar, number) => soFar + number, 0) / numbers.length
   : 0
-
+const removeUnderscoreFromId = entry => Object.assign({}, entry, {id: entry._id, _id: undefined})
 const entryExists = (rows, keyName, entry) =>
   rows.some(row => row[keyName] == entry[keyName])
 
@@ -52,19 +52,18 @@ module.exports = (col) => ({
       date: new Date()
     }
 
-    const business = this.getOneBusiness(businessId)
+    const business = await this.getOneBusiness(businessId)
     const businessWithNewComment = Object.assign({}, business, {
       comments: addOrReplace(business.comments, 'login', newComment)
     })
-
-    console.log(businessWithNewComment);
-
+    return col.updateOne({_id: id(businessId)}, businessWithNewComment)
   },
 
   async getOneBusiness(businessId) {
+    const query = {_id: id(businessId)};
     const business = await col.findOne({_id: id(businessId)})
     if (!business) throw err("business_not_found")
-    return business
+    return removeUnderscoreFromId(business)
   },
 
   async rate(login, businessId, stars) {
@@ -91,7 +90,7 @@ module.exports = (col) => ({
       .map(business => Object.assign({}, business, {
         avgRate: avg(business.rates.map(ratedByUser => ratedByUser.rate))
       }))
-      .map(business => Object.assign({}, business, {id: business._id, _id: undefined}))
+      .map(removeUnderscoreFromId)
   }
 })
 
