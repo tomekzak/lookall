@@ -71,10 +71,41 @@ module.exports = (collOfBusinesses, collOfNewBusinesses) => ({
     return collOfBusinesses.removeOne({_id: businessId})
   },
 
+  async voteOnComment({businessId, login, upvotesChange, downvotesChange}) {
+    var business
+    try {
+      business = await this.getOneBusiness(businessId)
+    } catch (e) {
+      return;
+    }
+
+    if (!business) {
+      throw err("business_not_found")
+    }
+
+    const changedComment = business.comments.find(c => c.login == login)
+
+    if (changedComment.voters.includes(login)) {
+      throw err("already_voted")
+    }
+
+    changedComment.upvotes += upvotesChange
+    changedComment.downvotes += downvotesChange
+    changedComment.voters.push(login)
+
+    const businessWithChangedComment = Object.assign({}, business, {
+      comments: addOrReplace(business.comments, 'login', changedComment)
+    })
+
+    return collOfBusinesses.updateOne({_id: id(businessId)}, businessWithChangedComment)
+  },
+
   async comment(login, businessId, comment) {
     const newComment = {
       login,
       content: comment,
+      upvotes: 0,
+      downvotes: 0,
       date: new Date()
     }
 
@@ -131,8 +162,7 @@ module.exports = (collOfBusinesses, collOfNewBusinesses) => ({
   },
 
   async find(params) {
-    const query = {category: params.category}
-    const businesses = await collOfBusinesses.find(query).toArray()
+    const businesses = await collOfBusinesses.find(params).toArray()
     return businesses.map(prepareBusinessForReturning)
   }
 

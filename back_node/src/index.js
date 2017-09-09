@@ -63,7 +63,6 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
   })
 
   // only for logged in users
-
   //comment a business
   app.post('/business/comment', users.denyUnlessLoggedIn, async (req, res) => {
     await businesses.comment(
@@ -72,6 +71,34 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
       req.body.comment
     );
     res.status(200).end()
+  })
+
+  app.post('/business/upvote_comment', users.denyUnlessLoggedIn, async (req, res) => {
+    try {
+      await businesses.voteOnComment({
+        businessId: req.body.businessId,
+        login: req.body.login,
+        upvotesChange: 1,
+        downvotesChange: 0
+      })
+      res.status(200).end()
+    } catch (e) {
+      return res.json({error: "already_voted"})
+    }
+  })
+
+  app.post('/business/downvote_comment', users.denyUnlessLoggedIn, async (req, res) => {
+    try {
+      await businesses.voteOnComment({
+        businessId: req.body.businessId,
+        login: req.body.login,
+        upvotesChange: 0,
+        downvotesChange: 1
+      })
+      res.status(200).end()
+    } catch (e) {
+      return res.json({error: "already_voted"})
+    }
   })
 
   //rate a business
@@ -122,10 +149,12 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
   })
 
   app.get('/business/find', async (req, res) => {
-    const params = {
-      category: req.query.category + ""
-    }
-    res.json(await businesses.find(params))
+    const query = Object.assign(
+      {},
+      req.query.category ? {category: req.query.category} : {},
+      req.query.owner ? {owner: req.query.owner} : {},
+    )
+    res.json(await businesses.find(query))
   })
 
   app.get('/business/all', async (req, res) => {
@@ -141,6 +170,8 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
       throw e
     }
   })
+
+
 
 
   // the server itself
