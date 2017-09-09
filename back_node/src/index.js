@@ -1,4 +1,5 @@
-// God forgive us all those things...
+// God forgive us all these things...
+// And please make bad people stay away from that vulnerable app.
 const express = require('express')
 const makeBusinesses = require('./businesses')
 const makeUsers = require('./users');
@@ -18,7 +19,10 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
 (async () => {
   const db = await MongoClient.connect(mongoUrl)
 
-  const businesses = makeBusinesses(db.collection("businesses"))
+  const businesses = makeBusinesses(
+    db.collection("businesses"),
+    db.collection("recommended_businesses")
+  )
   const users = makeUsers(db.collection('users'))
 
   app.use(bodyParser.json())
@@ -92,6 +96,23 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
       newBusiness
     )
     res.status(200).end();
+  })
+
+  app.post('/business/recommendExisting', async (req, res) => {
+    await businesses.recommendExisting({
+      login: req.user.login,
+      businessId: req.body.businessId
+    })
+    res.status(200).end()
+  })
+
+  app.post('/business/recommendNew', async (req, res) => {
+    await businesses.recommendNew({
+      contactInfo: req.body.contactInfo,
+      category: req.body.category,
+      login: req.user.login
+    })
+    res.status(200).end()
   })
 
   // publicly available endpoints

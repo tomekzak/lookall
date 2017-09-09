@@ -28,7 +28,8 @@ db.businesses.insertMany([
     ],
     "comments": [],
     "category": "bakery",
-    "description": "It's the best bakery. That's true."
+    "description": "It's the best bakery. That's true.",
+    "recommendations": ["lukasz"]
   },
   {
     "name": "Handmade bags",
@@ -36,7 +37,8 @@ db.businesses.insertMany([
     "rates": [],
     "comments": [],
     "category": "clothing",
-    "description": "If you're looking for a bag, simply go there!"
+    "description": "If you're looking for a bag, simply go there!",
+    "recommendations": ["admin", "lukasz"]
   },
   {
     "name": "Canvas shoes",
@@ -46,7 +48,8 @@ db.businesses.insertMany([
       {"login": "lukasz", "rate": 5}
     ],
     "category": "clothing",
-    "description": "Shoes made of canvas. What else do you want?"
+    "description": "Shoes made of canvas. What else do you want?",
+    "recommendations": []
   }
 
 ]);
