@@ -1,18 +1,18 @@
+import './hello.scss';
+
 export const hello = {
   template: require('./hello.html'),
   controller: class HelloComponent {
-    constructor(
-      $log,
-      BusinessService
-    ) {
+    constructor($log, BusinessService) {
       'ngInject';
       this.$log = $log;
-      this.BusinessService = BusinessService;
+      this.businessService = BusinessService;
     }
-
     $onInit() {
-      this.BusinessService.getAll().then(res => {
-        this.$log.debug('get all', res);
+      this.hello = 'Hello World!';
+      this.businesses = [];
+      this.businessService.getAll().then(res => {
+        this.businesses = res.data;
       });
     }
   }

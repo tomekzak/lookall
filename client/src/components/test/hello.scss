@@ -1,0 +1,27 @@
+.hello__title {
+  padding: 16px;
+}
+
+.lookall__list {
+  padding-top: 0;
+  background-color: #FFF;
+
+  md-list-item._md-button-wrap > div.md-button {
+    padding: 16px;
+  }
+
+  md-list-item .md-list-item-text h4 {
+    margin: 0 0 0 5px;
+    line-height: normal;
+    font-size: 14px;
+  }
+  
+  md-list-item .md-list-item-text p {
+    margin: 0 0 0 5px;
+    font-size: 13px;
+  }
+
+  .rating.label-visible {
+    justify-content: start;
+  }
+}

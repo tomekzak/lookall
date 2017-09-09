@@ -5,6 +5,8 @@ import angularAria from 'angular-aria';
 import angularAnimate from 'angular-animate';
 import angularMessages from 'angular-messages';
 import angularMaterial from 'angular-material';
+import angularMaterialIcons from 'angular-material-icons';
+import 'angular1-star-rating';
 
 import 'angular-material/angular-material.min.css';
 
@@ -17,6 +19,8 @@ angular
     angularAria,
     angularAnimate,
     angularMessages,
-    angularMaterial
+    angularMaterial,
+    angularMaterialIcons,
+    'star-rating'
   ])
   .config(depsConfig);
