@@ -8,6 +8,25 @@ const avg = numbers => numbers.length > 0
   ? numbers.reduce((soFar, number) => soFar + number, 0) / numbers.length
   : 0
 
+const entryExists = (rows, keyName, entry) =>
+  rows.some(row => row[keyName] == entry[keyName])
+
+const addOrReplace = (rows, keyName, newEntry) => {
+  if (entryExists(rows, keyName, newEntry)) {
+    //replace
+    return rows.map(row => {
+      if (row[keyName] == newEntry[keyName]) {
+        return newEntry
+      } else {
+        return row
+      }
+    })
+  } else {
+    //add
+    return [].concat(rows).push(newEntry)
+  }
+}
+
 /*
 
 {
@@ -19,7 +38,6 @@ const avg = numbers => numbers.length > 0
     {login: "lukasz", content: "It's a great bakery", date}
   ]
 }
-
 */
 module.exports = (col) => ({
 
@@ -28,6 +46,18 @@ module.exports = (col) => ({
   },
 
   async comment(login, businessId, comment) {
+    const newComment = {
+      login,
+      content: comment,
+      date: new Date()
+    }
+
+    const business = this.getOneBusiness(businessId)
+    const businessWithNewComment = Object.assign({}, business, {
+      comments: addOrReplace(business.comments, 'login', newComment)
+    })
+
+    console.log(businessWithNewComment);
 
   },
 

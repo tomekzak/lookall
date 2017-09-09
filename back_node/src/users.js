@@ -1,16 +1,15 @@
-const bcrypt = require("bcrypt")
-const cost = process.env.BCRYPTCOST || 12
+// long long time ago in a far away galaxy, here was bcrypt, but then windows appeared
 const jwt = require("jsonwebtoken")
 const secret = process.env.JWTKEY || "so secret it cannot be more secret";
 
 const users = [
   {
     login: "admin",
-    passwordHash: "$2a$12$judEQBcoZSg817S68HP4Ye.WfLgfjBvT35CSfHt95DRPZBrbutOzK"
+    password: "secret"
   },
   {
     login: "lukasz",
-    passwordHash: "$2a$12$fCiZ8g3SZtz0cjHrWYs6sebEmi.rQTHduFRkiuEw7oGs5iwu8Dniy"
+    password: "lukasz"
   }
 ];
 
@@ -29,7 +28,7 @@ module.exports = {
 
     users.push({
       login,
-      password: bcrypt.hash(password, cost)
+      password: password
     })
   },
 
@@ -53,8 +52,7 @@ module.exports = {
   isPasswordValid(login, password) {
     const user = users.find(u => u.login == login)
     if (!user) return false
-    const hash = user.passwordHash
-    return bcrypt.compareSync(password, hash);
+    return password == user.password
   },
 
   getJWT(login) {
