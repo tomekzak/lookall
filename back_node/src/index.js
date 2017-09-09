@@ -9,6 +9,11 @@ const path = require('path')
 var upload = multer({ dest: path.join(__dirname, '..', 'upload') })
 
 const app = express()
+if (process.env.NODE_ENV == 'development') {
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+  })
+}
 app.use('/images', express.static(path.join(__dirname, '..', 'images')))
 
 const MongoClient = require('mongodb').MongoClient

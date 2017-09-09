@@ -183,7 +183,7 @@ module.exports = (collOfBusinesses, collOfNewBusinesses) => ({
 
     return collOfBusinesses.updateOne(
       {_id: id(businessId)},
-      { "rates": business.rates}
+      { $set: {"rates": business.rates}}
     )
   },
 
