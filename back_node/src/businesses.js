@@ -47,8 +47,12 @@ const prepareBusinessForReturning = businessFromDb => addAvgRate(addUnderscoreLe
 */
 module.exports = (col) => ({
 
-  async save(business) {
-    return col.insertOne(business)
+  async save(login, business) {
+    return col.insertOne(Object.assign({}, business, {owner: login}))
+  },
+
+  async delete(businessId) {
+    return col.removeOne({_id: businessId})
   },
 
   async comment(login, businessId, comment) {

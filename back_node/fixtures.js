@@ -1,3 +1,16 @@
+db.users.remove({});
+
+db.users.insertMany([
+  {
+    login: "admin",
+    password: "secret"
+  },
+  {
+    login: "lukasz",
+    password: "lukasz"
+  }
+]);
+
 db.businesses.remove({});
 
 db.businesses.insertMany([
