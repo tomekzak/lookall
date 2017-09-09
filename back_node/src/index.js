@@ -47,6 +47,16 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
   //   res.status(200).end()
   // })
 
+  //comment a business
+  app.post('/business/comment', users.denyUnlessLoggedIn, async (req, res) => {
+    await businesses.comment(
+      login,
+      req.body.businessId,
+      req.body.comment
+    );
+  })
+
+  //rate a business
   app.post('/business/rate', users.denyUnlessLoggedIn, async (req, res) => {
     await businesses.rate(
       req.user.login,
