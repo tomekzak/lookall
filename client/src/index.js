@@ -3,9 +3,9 @@ import angular from 'angular';
 import routesConfig from './routes';
 import runApp from './run';
 
-import {deps} from './deps/deps.module.js';
-import {services} from './services/services.module.js';
-import {components} from './components/components.module.js';
+import {deps} from './deps/deps.module';
+import {services} from './services/services.module';
+import {components} from './components/components.module';
 
 import './index.scss';
 

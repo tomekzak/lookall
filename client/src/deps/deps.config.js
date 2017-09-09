@@ -1,6 +1,6 @@
 export default depsConfig;
 
-function depsConfig($mdThemingProvider) {
+function depsConfig($mdThemingProvider, $httpProvider) {
   'ngInject';
 
   $mdThemingProvider.theme('default')
@@ -13,4 +13,13 @@ function depsConfig($mdThemingProvider) {
     .accentPalette('orange', {
       default: '100'
     });
+  $httpProvider.interceptors.push(($log, $localStorage) => {
+    return {
+      request: config => {
+        $log.debug('config', $localStorage.token);
+        config.headers.Authorization = 'Bearer ' + $localStorage.token;
+        return config;
+      }
+    };
+  });
 }

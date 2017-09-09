@@ -1,0 +1,52 @@
+.register {
+  display: flex;
+  flex-direction: column;
+}
+
+.register__header {
+  min-height: 180px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  background-color: #fb8c00;
+}
+
+.register__header .md-fab {
+  position: absolute;
+  right: 24px;
+  bottom: -32px;
+}
+
+.register__title {
+  margin: 0;
+  color: #FFF;
+}
+
+.register__title label {
+  color: #FFF;
+}
+
+.register__title input {
+  border-bottom-color: #FFF;
+}
+
+.register__title md-input-container:not(.md-input-invalid).md-input-focused label {
+  color: #FFF;
+}
+
+.register__title md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+  border-bottom-color: #FFF;
+  color: #FFF;
+}
+
+.register__header-info {
+  padding-left: 90px;
+  margin-bottom: 0;
+}
+
+.register__button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-right: 18px;
+}

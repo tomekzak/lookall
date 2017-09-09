@@ -7,6 +7,7 @@ import angularMessages from 'angular-messages';
 import angularMaterial from 'angular-material';
 import angularMaterialIcons from 'angular-material-icons';
 import 'angular1-star-rating';
+import 'ngStorage';
 
 import 'angular-material/angular-material.min.css';
 
@@ -21,6 +22,7 @@ angular
     angularMessages,
     angularMaterial,
     angularMaterialIcons,
-    'star-rating'
+    'star-rating',
+    'ngStorage'
   ])
   .config(depsConfig);

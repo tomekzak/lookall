@@ -1,0 +1,39 @@
+<div class="login">
+    <div class="login__content">
+        <md-content layout-gt-sm="row" layout="row" layout-padding layout-align="end center">
+          <div flex layout="column">
+            <p class="md-subhead" style="padding: 0 8px;">Dołącz do społeczności lokalnych :)</p>
+            <div flex layout="column" style="padding: 0 32px;">
+              <md-input-container>
+                <label>Login</label>
+                <input ng-model="$ctrl.user.login">
+              </md-input-container>
+
+              <md-input-container>
+                <label>Hasło</label>
+                <input ng-model="$ctrl.user.password" type="password">
+              </md-input-container>
+            </div>
+
+            <div class="login__button">
+                <md-button class="md-raised md-primary" ng-click="$ctrl.login()">Zaloguj</md-button>
+            </div>
+
+            <div class="login__others">
+              <p>Zaloguj przez</p>
+              <div class="login__others-buttons">
+                <md-button class="md-fab" aria-label="Facebook">
+                  <ng-md-icon icon="facebook" style="fill:#FFFFFF;display: flex; justify-content: center;"></ng-md-icon>
+                </md-button>
+                <md-button class="md-fab" aria-label="Google+">
+                  <ng-md-icon icon="google-plus" style="fill:#FFFFFF;display: flex; justify-content: center;"></ng-md-icon>
+                </md-button>
+                <md-button class="md-fab" aria-label="Twitter">
+                  <ng-md-icon icon="twitter" style="fill:#FFFFFF;display: flex; justify-content: center;"></ng-md-icon>
+                </md-button>
+              </div>
+            </div>
+          </div>
+        </md-content>
+    </div>
+  </div>

@@ -1,0 +1,41 @@
+<div class="register">
+    <div class="register__header">
+      <div class="register__header-info">
+        <div class="register__title">
+          <md-input-container style="margin-bottom: 0;">
+            <label>Login</label>
+            <input ng-model="$ctrl.user.login">
+          </md-input-container>
+        </div>
+      </div>
+      <md-button class="md-fab md-primary" aria-label="Dodaj zdjęcie">
+          <ng-md-icon icon="add_a_photo" style="fill:#FFFFFF;display: flex; justify-content: center;"></ng-md-icon>
+      </md-button>
+    </div>
+    <div class="register__content">
+        <md-content layout-gt-sm="row" layout="row" layout-padding layout-align="end center" style="padding-right: 0;">
+          <div flex layout="column" style="padding-left: 82px;">
+            <md-input-container>
+              <label>Imię</label>
+              <input ng-model="$ctrl.user.name">
+            </md-input-container>
+      
+            <md-input-container>
+              <label>Nazwisko</label>
+              <input ng-model="$ctrl.user.surname">
+            </md-input-container>
+
+            <md-input-container>
+              <label>Hasło</label>
+              <input ng-model="$ctrl.user.password" type="password">
+            </md-input-container>
+
+            <div class="register__button">
+              <md-button class="md-fab md-primary" aria-label="Zarejestruj" ng-click="$ctrl.add()">
+                <ng-md-icon icon="check" style="fill:#FFFFFF;display: flex; justify-content: center;"></ng-md-icon>
+              </md-button>
+            </div>
+          </div>
+        </md-content>
+    </div>
+  </div>

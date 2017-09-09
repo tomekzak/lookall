@@ -1,8 +1,8 @@
-import './register.scss';
+import './login.scss';
 
-export const register = {
-  template: require('./register.html'),
-  controller: class RegisterComponent {
+export const login = {
+  template: require('./login.html'),
+  controller: class loginComponent {
     constructor($log, $mdToast, UserService) {
       'ngInject';
       this.$log = $log;
@@ -11,21 +11,21 @@ export const register = {
 
       this.user = {};
     }
-    add() {
+    login() {
       this.$log.debug('user', this.user);
-      this.userService.register(this.user).then(res => {
+      this.userService.login(this.user).then(res => {
         this.$log.debug('res', res);
         if (res.data.error === 'user_already_exists') {
           this.$mdToast.show(
             this.$mdToast.simple()
-              .textContent('Istnieje już taki użytkownik :(')
+              .textContent('Nieprawidłowe dane')
               .position('bottom')
               .hideDelay(3000)
           );
         } else {
           this.$mdToast.show(
             this.$mdToast.simple()
-              .textContent('Dzięki!')
+              .textContent('Cześć!')
               .position('bottom')
               .hideDelay(2000)
           );

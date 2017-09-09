@@ -27,6 +27,28 @@ function mainRoutes($stateProvider) {
           return BusinessService.get($stateParams.id);
         }
       }
+    })
+    .state('app.main.register', {
+      url: 'register',
+      views: {
+        'content@app': {
+          component: 'register'
+        }
+      },
+      data: {
+        back: true
+      }
+    })
+    .state('app.main.login', {
+      url: 'login',
+      views: {
+        'content@app': {
+          component: 'login'
+        }
+      },
+      data: {
+        back: true
+      }
     });
 }
 
