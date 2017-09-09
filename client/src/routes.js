@@ -7,7 +7,11 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
 
   $stateProvider
     .state('app', {
-      url: '/',
-      component: 'appMain'
+      abstract: true,
+      views: {
+        '': {
+          component: 'appMain'
+        }
+      }
     });
 }
