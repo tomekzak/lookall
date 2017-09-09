@@ -31,6 +31,17 @@ function mainRoutes($stateProvider) {
         }
       }
     })
+    .state('app.main.addBusiness', {
+      url: 'addBusiness',
+      views: {
+        'content@app': {
+          component: 'addBusiness'
+        }
+      },
+      data: {
+        back: true
+      }
+    })
     .state('app.main.register', {
       url: 'register',
       views: {
