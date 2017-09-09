@@ -1,3 +1,4 @@
+// God forgive us all those things...
 const express = require('express')
 const makeBusinesses = require('./businesses')
 const bodyParser = require('body-parser')
@@ -26,7 +27,11 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
 
   app.post('/business/upvote', async (req, res) => {
     await businesses.upvote(req.body.id)
-    console.log('upvoted');
+    res.status(200).end()
+  })
+
+  app.post('/business/downvote', async (req, res) => {
+    await businesses.downvote(req.body.id)
     res.status(200).end()
   })
 

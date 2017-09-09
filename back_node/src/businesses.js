@@ -17,6 +17,15 @@ module.exports = businessesCol => {
       )
     },
 
+    async downvote(businessId) {
+      return await businessesCol.updateOne(
+        {_id: id(businessId)},
+        {
+          $inc: {"votes.down": 1}
+        }
+      )
+    },
+
     async getAll() {
       return await businessesCol.find({}).toArray()
     }
