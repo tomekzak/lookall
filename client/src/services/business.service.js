@@ -16,6 +16,9 @@ export class BusinessService {
       return response.data;
     });
   }
+  rate(data) {
+    return this.$http.post(url + '/business/rate', data);
+  }
   upvote(id) {
     return this.$http.post(url + '/business/upvote', {id});
   }
