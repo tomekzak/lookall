@@ -24,6 +24,12 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
     res.status(200).end()
   })
 
+  app.post('/business/upvote', async (req, res) => {
+    await businesses.upvote(req.body.id)
+    console.log('upvoted');
+    res.status(200).end()
+  })
+
   app.listen(port, function () {
     console.log(`Example app listening on port ${port}!`)
   })
