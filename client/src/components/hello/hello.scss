@@ -3,7 +3,7 @@
 }
 
 .lookall__list {
-  padding-top: 0;
+  padding: 0;
   background-color: #FFF;
 
   md-list-item._md-button-wrap > div.md-button {
@@ -19,6 +19,14 @@
   md-list-item .md-list-item-text p {
     margin: 0 0 0 5px;
     font-size: 13px;
+  }
+
+  md-list-item .md-list-item-inner {
+    align-items: flex-start;
+  }
+
+  md-list-item .md-list-item-inner > img {
+    padding-right: 8px;
   }
 
   .rating.label-visible {
