@@ -5,6 +5,9 @@ export class BusinessService {
     this.$log = $log;
   }
   getAll() {
-    return this.$http.get('localhost:5000/business/all').then(response => this.$log('first fetch!', response.data));
+    return this.$http.get('http://localhost:5000/business/all').then(response => {
+      this.$log.debug('first fetch!', response);
+      return response;
+    });
   }
 }
