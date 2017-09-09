@@ -7,8 +7,12 @@ export class BusinessService {
   }
   getAll() {
     return this.$http.get(url + '/business/all').then(response => {
-      this.$log.debug('first fetch!', response);
       return response;
+    });
+  }
+  get(id) {
+    return this.$http.get(url + '/business/' + id).then(response => {
+      return response.data;
     });
   }
   upvote(id) {

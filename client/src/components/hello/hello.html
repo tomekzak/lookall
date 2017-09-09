@@ -1,7 +1,7 @@
 <div layout="column" layout-align="start stretch">
     <div class="hello__title">Znajdź lokalnych twórców i rzemieślników!</div>
     <md-list flex class="lookall__list">
-        <md-list-item ng-repeat="item in $ctrl.businesses" ng-click="$ctrl.showDetails(item._id)">
+        <md-list-item ng-repeat="item in $ctrl.businesses" ng-click="$ctrl.showDetails(item.id)">
             <img ng-src="./../../assets/images/{{item.image}}.png" class="list__item__image--rect" alt="{{item.name}}" />
             <div class="md-list-item-text" layout="column">
                 <h4>{{ item.name }}</h4>

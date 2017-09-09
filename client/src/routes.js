@@ -12,6 +12,9 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         '': {
           component: 'appMain'
         }
+      },
+      data: {
+        back: false
       }
     });
 }
