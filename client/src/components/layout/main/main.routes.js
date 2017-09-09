@@ -12,19 +12,10 @@ function mainRoutes($stateProvider) {
       }
     })
     .state('app.main.detail', {
-      url: 'business/:id',
+      url: '/:id',
       views: {
         'content@app': {
-          component: 'business',
-          bindings: {business: 'businessItem'}
-        }
-      },
-      data: {
-        back: true
-      },
-      resolve: {
-        businessItem: ($log, $stateParams, BusinessService) => {
-          return BusinessService.get($stateParams.id);
+          component: 'business'
         }
       }
     })

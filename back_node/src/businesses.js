@@ -1,9 +1,24 @@
+const fs = require('fs')
+const uuidv4 = require('uuid/v4')
 const id = require('mongodb').ObjectID
+const defaultCategories = [
+  "ubrania i tekstylia",
+  "gastronomia",
+  "rzemiosło artystyczne",
+  "książki",
+  "wnętrza",
+  "inne"
+];
+
 const err = code => {
   let e = new Error
   e.code = code
   return e
 }
+const unique = arr => arr.reduce(
+  (uniq, e) => uniq.includes(e) ? uniq : [...uniq, e],
+  []
+)
 const avg = numbers => numbers.length > 0
   ? numbers.reduce((soFar, number) => soFar + number, 0) / numbers.length
   : 0
@@ -33,28 +48,99 @@ const addAvgRate = business => Object.assign({}, business, {
 
 const prepareBusinessForReturning = businessFromDb => addAvgRate(addUnderscoreLessId(businessFromDb))
 
-/*
-
-{
-  name: "Best Bakery",
-  rates: [
-    {login: "lukasz", rate: 5}
-  ],
-  comments: [
-    {login: "lukasz", content: "It's a great bakery", date}
-  ]
+const moveFileToImages = (originalFilename, path) => {
+  //TODO: do validation
+  //TODO: extract that filetype
+  const ext = ".jpg"
+  const newFilename = uuidv4() + ext
+  const newPath = __dirname + "/../images/" + newFilename
+  fs.renameSync(path, newPath)
+  return "/images/" + newFilename
 }
-*/
-module.exports = (col) => ({
 
-  async save(business) {
-    return col.insertOne(business)
+module.exports = (collOfBusinesses, collOfNewBusinesses) => ({
+
+  //such an awful IDOR
+  async edit(businessId, paramsToChange) {
+    const params = Object.assign(
+      {},
+      paramsToChange.image ? {
+          image: moveFileToImages(
+            business.image.originalname,
+            business.image.path
+          )
+      } : {image: 1},
+      paramsToChange.name ? { name: paramsToChange.name } : {},
+      paramsToChange.address ? { address: paramsToChange.address } : {},
+      paramsToChange.category ? { category: paramsToChange.category } : {},
+      paramsToChange.description ? { description: paramsToChange.description } : {},
+    )
+
+    return collOfBusinesses.updateOne(
+      {_id: id(businessId)},
+      {$set: params}
+    )
+  },
+
+  async save(login, business) {
+    const pathToImage = moveFileToImages(
+      business.image.originalname,
+      business.image.path
+    )
+    const businessParameters = {
+      name: business.name,
+      address: business.address,
+      category:  business.category,
+      description: business.description,
+      rates: [],
+      comments: [],
+      recommendations: [],
+      owner: login,
+      image: pathToImage
+    }
+
+    return collOfBusinesses.insertOne(businessParameters)
+  },
+
+  async delete(businessId) {
+    return collOfBusinesses.removeOne({_id: id(businessId)})
+  },
+
+  async voteOnComment({businessId, login, upvotesChange, downvotesChange}) {
+    var business
+    try {
+      business = await this.getOneBusiness(businessId)
+    } catch (e) {
+      return;
+    }
+
+    if (!business) {
+      throw err("business_not_found")
+    }
+
+    const changedComment = business.comments.find(c => c.login == login)
+
+    if (changedComment.voters.includes(login)) {
+      throw err("already_voted")
+    }
+
+    changedComment.upvotes += upvotesChange
+    changedComment.downvotes += downvotesChange
+    changedComment.voters.push(login)
+
+    const businessWithChangedComment = Object.assign({}, business, {
+      comments: addOrReplace(business.comments, 'login', changedComment)
+    })
+
+    return collOfBusinesses.updateOne({_id: id(businessId)}, businessWithChangedComment)
   },
 
   async comment(login, businessId, comment) {
     const newComment = {
       login,
       content: comment,
+      upvotes: 0,
+      downvotes: 0,
       date: new Date()
     }
 
@@ -62,12 +148,23 @@ module.exports = (col) => ({
     const businessWithNewComment = Object.assign({}, business, {
       comments: addOrReplace(business.comments, 'login', newComment)
     })
-    return col.updateOne({_id: id(businessId)}, businessWithNewComment)
+    return collOfBusinesses.updateOne({_id: id(businessId)}, businessWithNewComment)
+  },
+
+  async recommendExisting({login, businessId}) {
+    collOfBusinesses.updateOne(
+      {_id: id(businessId)},
+      { $addToSet: { recommendations: login } }
+    )
+  },
+
+  async recommendNew({contactInfo, category, login}) {
+    collOfNewBusinesses.insertOne({login, category, contactInfo})
   },
 
   async getOneBusiness(businessId) {
     const query = {_id: id(businessId)};
-    const business = await col.findOne({_id: id(businessId)})
+    const business = await collOfBusinesses.findOne({_id: id(businessId)})
     if (!business) throw err("business_not_found")
     return addUnderscoreLessId(business)
   },
@@ -84,24 +181,26 @@ module.exports = (col) => ({
 
     if (!altered) business.rates.push({login, rate: stars})
 
-    return col.updateOne(
+    return collOfBusinesses.updateOne(
       {_id: id(businessId)},
       { "rates": business.rates}
     )
   },
 
   async getAll() {
-    const businesses = await col.find({}).toArray();
+    const businesses = await collOfBusinesses.find({}).toArray();
     return businesses.map(prepareBusinessForReturning)
   },
 
   async getCategories() {
-    return col.distinct("category")
+    const fromDb = await collOfBusinesses.distinct("category")
+    return unique([]
+      .concat(fromDb)
+      .concat(defaultCategories))
   },
 
   async find(params) {
-    const query = {category: params.category}
-    const businesses = await col.find(query).toArray()
+    const businesses = await collOfBusinesses.find(params).toArray()
     return businesses.map(prepareBusinessForReturning)
   }
 

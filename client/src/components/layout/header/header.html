@@ -1,12 +1,10 @@
 <md-toolbar class="md-hue-2">
-  <div class="md-toolbar-tools" ng-class="{'removeLeftPadding': $ctrl.back}">
-    <h2 flex ng-hide="true">Lookalni</h2>
+  <div class="md-toolbar-tools">
+    <h2 flex md-truncate ng-hide="true">Lookalni</h2>
     <span flex>
-        <img ng-hide="$ctrl.back" src="./../../../assets/images/logo.png" style="height: 24px;"/>
-        <md-button ng-show="$ctrl.back" class="md-icon-button" aria-label="Back" ng-click="$ctrl.goBack()">
-            <ng-md-icon icon="arrow_back" style="fill:#FFFFFF"></ng-md-icon>
-        </md-button>
+        <img src="./../../../assets/images/logo.png" style="height: 24px;"/>
     </span>
+
     <md-button class="md-icon-button" aria-label="Search">
         <ng-md-icon icon="search" style="fill:#FFFFFF"></ng-md-icon> 
     </md-button>
@@ -15,6 +13,7 @@
         <ng-md-icon icon="favorite" style="fill:#FFFFFF"></ng-md-icon>
     </md-button>
 
+<<<<<<< HEAD
     <md-menu>
         <md-button aria-label="Otwórz menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
             <ng-md-icon icon="more_vert" style="fill:#FFFFFF"></ng-md-icon>
@@ -32,5 +31,10 @@
             </md-menu-item>
         </md-menu-content>
         </md-menu>
+=======
+    <md-button class="md-icon-button" aria-label="More">
+        <ng-md-icon icon="more_vert" style="fill:#FFFFFF"></ng-md-icon>
+    </md-button>
+>>>>>>> 4bc24a121a887d803cd66b236692025496f1c055
   </div>
 </md-toolbar>

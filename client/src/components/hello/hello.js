@@ -26,7 +26,6 @@ export const hello = {
       });
     }
     showDetails(id) {
-      this.$log.debug('detail id', id);
       return this.$state.go('app.main.detail', {id});
     }
   }

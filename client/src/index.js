@@ -1,7 +1,6 @@
 import angular from 'angular';
 
 import routesConfig from './routes';
-import runApp from './run';
 
 import {deps} from './deps/deps.module';
 import {services} from './services/services.module';
@@ -17,5 +16,4 @@ angular
     services,
     components
   ])
-  .config(routesConfig)
-  .run(runApp);
+  .config(routesConfig);

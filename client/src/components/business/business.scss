@@ -1,16 +1,8 @@
 .detail__header-image {
   position: relative;
   min-height: 230px;
-  display: flex;
-  align-items: flex-end;
   background-repeat: no-repeat;
   background-size: cover;
-}
-
-.detail__header-image .md-fab {
-  position: absolute;
-  right: 24px;
-  bottom: -32px;
 }
 
 .image-blend {
@@ -21,33 +13,4 @@
   left: 0;
   background-color: #000;
   opacity: 0.5;
-}
-
-.detail__header-info {
-  padding-left: 64px;
-  color: #FFF;
-  z-index: 1;
-}
-
-.detail__title {
-  margin-bottom: 0;
-  font-size: 34px;
-  font-weight: normal;
-}
-
-.detail__category {
-  margin-top: 8px;
-  color: #FFF;
-  z-index: 1;
-}
-
-.detail__content {
-  padding-left: 64px;
-  padding-top: 12px;
-  padding-bottom: 32px;
-  background-color: #FFF;
-}
-
-.detail__content .rating {
-  justify-content: flex-start;
 }
