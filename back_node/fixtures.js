@@ -20,47 +20,47 @@ db.businesses.remove({});
 db.businesses.insertMany([
 
   {
-    "name": "Jonh's bakery",
-    "address": "The Best Street",
+    "name": " Ślusarstwo Produkcyjne",
+    "address": " ul. E. Orzeszkowej 6   41-103 Siemianowice Ślaskie",
     "rates": [
       {"login": "admin", "rate": 3},
       {"login": "lukasz", "rate": 5},
     ],
-    "owner": "john",
+    "owner": “Wojciech”,
     "comments": [],
     "rates": [],
-    "category": "bakery",
-    "description": "It's the best bakery. That's true.",
+    "category": “rzemiosło”,
+    "description": “Jestem najlepszym ślusarzem w okolicy!”,
     "recommendations": ["lukasz"]
   },
   {
-    "name": "Handmade bags",
-    "address": "Baggy street",
+    "name": “Szewstwo”,
+    "address": "ul. Gliwicka 84, 40-854 Katowice",
     "rates": [],
-    "owner": "lukasz",
+    "owner": “Maria”,
     "comments": [],
     "rates": [],
-    "category": "clothing",
-    "description": "If you're looking for a bag, simply go there!",
+    "category": “ubrania I tekstylia”,
+    "description": “Odnowa obuwia”,
     "recommendations": ["admin", "lukasz"]
   },
   {
-    "name": "Canvas shoes",
-    "address": "Happy Cow St.",
-    "owner": "lukasz",
+    "name": “Ubezpieczenia”,
+    "address": "ul. Styczniowa 28B, 40-305 Katowice",
+    "owner": “Bogusław”,
     "rates": [{"login": "lukasz", "rate": 5}],
     "comments": [
       {
         voters: [],
         login: "lukasz",
-        content: "The first comment",
+        content: “Super ubezpieczalnia!”,
         date: ISODate("2017-03-12"),
         upvotes: 129,
         downvotes: 4
       }
     ],
-    "category": "clothing",
-    "description": "Shoes made of canvas. What else do you want?",
+    "category": “inne”,
+    "description": “Najtańsze ubezpieczenia w mieście!”,
     "recommendations": []
   }
 
