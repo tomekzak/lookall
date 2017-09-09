@@ -6,7 +6,7 @@
             <div class="md-list-item-text" layout="column">
                 <h4>{{ item.name }}</h4>
                 <p>{{ item.description }}</p>
-                <star-rating-comp read-only="true" rating="'3.0'"></star-rating-comp>
+                <star-rating-comp read-only="true" rating="item.avgRate"></star-rating-comp>
             </div>
             <md-divider ></md-divider>
         </md-list-item>
