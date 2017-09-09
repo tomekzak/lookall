@@ -29,7 +29,7 @@ module.exports = (col) => ({
 
   async comment(login, businessId, comment) {
 
-  }
+  },
 
   async getOneBusiness(businessId) {
     const business = await col.findOne({_id: id(businessId)})
