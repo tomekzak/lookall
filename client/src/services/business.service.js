@@ -1,3 +1,4 @@
+const url = 'http://localhost:5000';
 export class BusinessService {
   constructor($http, $log) {
     'ngInject';
@@ -5,9 +6,15 @@ export class BusinessService {
     this.$log = $log;
   }
   getAll() {
-    return this.$http.get('http://localhost:5000/business/all').then(response => {
+    return this.$http.get(url + '/business/all').then(response => {
       this.$log.debug('first fetch!', response);
       return response;
     });
+  }
+  upvote(id) {
+    return this.$http.post(url + '/business/upvote', {id});
+  }
+  downvote(id) {
+    return this.$http.post(url + '/business/downvote', {id});
   }
 }

@@ -36,7 +36,7 @@ const mongoUrl = process.env.MONGO || 'mongodb://localhost:27017/lookall';
   })
 
   app.listen(port, function () {
-    console.log(`Example app listening on port ${port}!`)
+    console.log(`API listening on port ${port}!`)
   })
 
 })()
