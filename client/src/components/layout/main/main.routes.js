@@ -10,6 +10,14 @@ function mainRoutes($stateProvider) {
           component: 'hello'
         }
       }
+    })
+    .state('app.main.detail', {
+      url: '/:id',
+      views: {
+        'content@app': {
+          component: 'business'
+        }
+      }
     });
 }
 

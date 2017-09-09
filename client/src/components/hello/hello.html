@@ -1,13 +1,14 @@
 <div layout="column" layout-align="start stretch">
     <div class="hello__title">Znajdź lokalnych twórców i rzemieślników!</div>
     <md-list flex class="lookall__list">
-        <md-list-item ng-repeat="item in $ctrl.businesses" ng-click="null">
-            <img ng-src="{{item.face}}" class="md-avatar" alt="{{item.who}}" />
+        <md-list-item ng-repeat="item in $ctrl.businesses" ng-click="$ctrl.showDetails(item._id)">
+            <img ng-src="./../../assets/images/{{item.image}}.png" class="list__item__image--rect" alt="{{item.name}}" />
             <div class="md-list-item-text" layout="column">
                 <h4>{{ item.name }}</h4>
                 <p>{{ item.address }}</p>
-                <star-rating-comp rating="'3.0'"></star-rating-comp>
+                <star-rating-comp read-only="true" rating="'3.0'"></star-rating-comp>
             </div>
+            <md-divider ></md-divider>
         </md-list-item>
     </md-list>
 </div>
