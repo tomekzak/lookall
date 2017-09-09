@@ -17,7 +17,9 @@ function depsConfig($mdThemingProvider, $httpProvider) {
     return {
       request: config => {
         $log.debug('config', $localStorage.token);
-        config.headers.Authorization = 'Bearer ' + $localStorage.token;
+        if ($localStorage.token) {
+          config.headers.Authorization = 'Bearer ' + $localStorage.token;
+        }
         return config;
       }
     };
